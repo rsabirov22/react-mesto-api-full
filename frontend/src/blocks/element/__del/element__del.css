@@ -1,0 +1,17 @@
+.element__del {
+  background: transparent url(../../../images/trash.svg) center center no-repeat;
+  cursor: pointer;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: none;
+  width: 30px;
+  height: 30px;
+  border: none;
+  padding: 0;
+  transition: opacity 0.4s ease;
+}
+
+.element__del:hover {
+  opacity: 0.6;
+}

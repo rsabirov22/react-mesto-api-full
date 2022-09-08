@@ -1,0 +1,16 @@
+.page__container {
+  box-sizing: border-box;
+  min-width: 320px;
+  max-width: 880px;
+  min-height: 100%;
+  padding: 45px 0 60px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+@media screen and (max-width: 400px) {
+  .page__container {
+    padding: 28px 0 36px;
+  }
+}

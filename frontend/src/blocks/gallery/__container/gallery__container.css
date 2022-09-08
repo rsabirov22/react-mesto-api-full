@@ -1,0 +1,11 @@
+.gallery__container {
+  position: relative;
+}
+  
+@media screen and (max-width: 585px) {
+.gallery__container {
+    width: 100%;
+    min-width: auto;
+    margin: 0 40px;
+  }
+}

@@ -1,0 +1,17 @@
+.popup {
+  user-select: none;
+  visibility: hidden;
+  opacity: 0;
+  overflow: hidden;
+  transition: visibility 0.4s ease, opacity 0.4s ease;
+  align-items: center;
+  justify-content: center;
+  z-index: 100;
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
