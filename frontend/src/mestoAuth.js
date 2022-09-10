@@ -23,9 +23,7 @@ export const authorize = (password, email) => {
   return fetch(`${BASE_URL}/signin`, {
     method: 'POST',
     headers: {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': 'http://localhost:3000/'
     },
     credentials: 'include',
     body: JSON.stringify({ password, email })
@@ -36,10 +34,9 @@ export const getContent = (token) => {
   return fetch(`${BASE_URL}/users/me`, {
     method: 'GET',
     headers: {
-      'Accept': 'application/json',
       'Content-Type': 'application/json',
-      // 'Authorization': `Bearer ${token}`,
-    }
+    },
+    credentials: 'include',
   })
   .then(handleResponse);
 }

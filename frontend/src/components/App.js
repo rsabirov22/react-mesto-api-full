@@ -81,7 +81,7 @@ function App() {
   }
 
   function handleCardLike(card) {
-    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const isLiked = card.likes.some(i => i === currentUser._id);
 
     api.changeLikeCardStatus(card._id, !isLiked)
       .then((newCard) => {
@@ -103,8 +103,8 @@ function App() {
       if (res) {
         setLoggedIn(true);
         setUserData({
-          id: res.data._id,
-          email: res.data.email
+          id: res._id,
+          email: res.email
         });
       }
     })
@@ -192,7 +192,7 @@ function App() {
     if (loggedIn) {
       api.getInitialCards()
       .then((data) => {
-        setCards(data)
+        setCards(data.reverse())
       })
       .catch(err => console.log(err));
     }

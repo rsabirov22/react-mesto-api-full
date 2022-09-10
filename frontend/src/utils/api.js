@@ -1,9 +1,6 @@
-// const token = localStorage.getItem('jwt');
-
 class Api {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    // this._token = options.headers.authorization;
     this._headers = options.headers;
   }
 
@@ -17,10 +14,8 @@ class Api {
 
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
-      // headers: {
-      //   authorization: this._token
-      // }
-      headers: this._headers
+      headers: this._headers,
+      credentials: 'include',
     })
     .then(this.handleResponse);
   }
@@ -29,10 +24,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards`, {
       method: 'POST',
       headers: this._headers,
-      // headers: {
-      //   authorization: this._token,
-      //   'Content-Type': 'application/json'
-      // },
+      credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(this.handleResponse);
@@ -42,10 +34,7 @@ class Api {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
       method: 'DELETE',
       headers: this._headers,
-      // headers: {
-      //   authorization: this._token,
-      //   'Content-Type': 'application/json'
-      // }
+      credentials: 'include',
     })
     .then(this.handleResponse);
   }
@@ -54,10 +43,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'PATCH',
       headers: this._headers,
-      // headers: {
-      //   authorization: this._token,
-      //   'Content-Type': 'application/json'
-      // },
+      credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(this.handleResponse);
@@ -66,11 +52,8 @@ class Api {
   getProfile() {
     return fetch(`${this._baseUrl}/users/me`, {
       method: 'GET',
-      headers: this._headers
-      // headers: {
-      //   authorization: this._token,
-      //   'Content-Type': 'application/json'
-      // }
+      headers: this._headers,
+      credentials: 'include',
     })
     .then(this.handleResponse);
   }
@@ -79,10 +62,7 @@ class Api {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',
       headers: this._headers,
-      // headers: {
-      //   authorization: this._token,
-      //   'Content-Type': 'application/json'
-      // },
+      credentials: 'include',
       body: JSON.stringify(data)
     })
     .then(this.handleResponse);
@@ -92,21 +72,15 @@ class Api {
     if (status === true) {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: 'PUT',
-        headers: this._headers
-        // headers: {
-        //   authorization: this._token,
-        //   'Content-Type': 'application/json'
-        // }
+        headers: this._headers,
+        credentials: 'include',
       })
       .then(this.handleResponse);
     } else {
       return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
         method: 'DELETE',
-        headers: this._headers
-        // headers: {
-        //   authorization: this._token,
-        //   'Content-Type': 'application/json'
-        // }
+        headers: this._headers,
+        credentials: 'include',
       })
       .then(this.handleResponse);
     }
@@ -116,7 +90,6 @@ class Api {
 const api = new Api({
   baseUrl: 'http://localhost:3001',
   headers: {
-    // authorization: `Bearer ${token}`,
     'Content-Type': 'application/json'
   },
   credentials: 'include',

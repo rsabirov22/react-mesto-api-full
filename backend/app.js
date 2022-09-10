@@ -2,15 +2,16 @@ require('dotenv').config();
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-const cors = require('cors');
+// const cors = require('cors');
 const { errors } = require('celebrate');
+const cors = require('./middlewares/cors');
 const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
 
 const app = express();
-app.use(cors());
+app.use(cors);
 app.use(cookieParser());
 const { PORT = 3001 } = process.env;
 

@@ -40,16 +40,10 @@ const login = (req, res, next) => {
 
           const token = getJwtToken(user.id);
 
-          res
-            .cookie('jwt', token, {
-              maxAge: 3600000 * 24 * 7,
-              httpOnly: true,
-            }).send({ message: 'Успешная авторизация' });
-
-          // return res.status(200).cookie('jwt', token, {
-          //   maxAge: 3600000 * 24 * 7,
-          //   httpOnly: true,
-          // }).send({ token });
+          return res.status(200).cookie('jwt', token, {
+            maxAge: 3600000 * 24 * 7,
+            httpOnly: true,
+          }).send({ token });
         });
     })
     .catch(next);
