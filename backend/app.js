@@ -9,6 +9,7 @@ const usersRouter = require('./routes/users');
 const cardsRouter = require('./routes/cards');
 const auth = require('./middlewares/auth');
 const NotFoundError = require('./errors/NotFoundError');
+const { requestLogger, errorLogger } = require('./middlewares/logger');
 
 const app = express();
 app.use(cors);
@@ -18,9 +19,16 @@ const { PORT = 3001 } = process.env;
 // подключаемся к серверу mongo
 mongoose.connect('mongodb://localhost:27017/mestodb');
 
+app.use(requestLogger); // подключаем логгер запросов
+
 // подключаем мидлвары, роуты и всё остальное...
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
 app.post('/signin', usersRouter);
 app.post('/signup', usersRouter);
 app.use(auth);
@@ -29,6 +37,7 @@ app.use('/', cardsRouter);
 app.use((req, res, next) => {
   next(new NotFoundError('Такой страницы не существует'));
 });
+app.use(errorLogger); // подключаем логгер ошибок
 app.use(errors()); // обработчик ошибок celebrate
 // здесь обрабатываем все ошибки
 app.use((err, req, res, next) => {
