@@ -1,4 +1,4 @@
-export const BASE_URL = 'https://mesto.rsabirov.backend.nomoredomains.sbs';
+export const BASE_URL = 'http://localhost:3001';
 
 export const handleResponse = (res) => {
   if (res.ok) {
