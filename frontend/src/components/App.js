@@ -29,6 +29,58 @@ function App() {
   const [errorMessage, setErrorMessage] = React.useState('');
   const history = useHistory();
 
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+    // проверка наличия токена и валидности токена
+    if (jwt) {
+      mestoAuth.getContent(jwt)
+      .then((res) => {
+        if (res) {
+          setLoggedIn(true);
+          setUserData({
+            id: res._id,
+            email: res.email
+          });
+        } else {
+          localStorage.removeItem('jwt');
+          history.push('/sign-in');
+        }
+      })
+      .catch(err => console.log(err));
+    }
+    // проверка наличия токена и валидности токена
+  }, [loggedIn]);
+
+  React.useEffect(() => {
+    if (loggedIn) {
+      history.push('/');
+    }
+  }, [loggedIn])
+
+  React.useEffect(() => {
+    // Загрузка информации о пользователе
+    if (loggedIn) {
+      api.getProfile()
+      .then((data) => {
+        setCurrentUser(data)
+      })
+      .catch(err => console.log(err));
+    }
+    // Загрузка информации о пользователе
+  }, [loggedIn]);
+
+  React.useEffect(() => {
+    // Загрузка карточек
+    if (loggedIn) {
+      api.getInitialCards()
+      .then((data) => {
+        setCards(data.reverse())
+      })
+      .catch(err => console.log(err));
+    }
+    // Загрузка карточек
+  }, [loggedIn]);
+
   function handleEditAvatarClick() {
     setIsEditAvatarPopupOpen(true);
   };
@@ -98,21 +150,6 @@ function App() {
       .catch(err => console.log(err));
   }
 
-  const auth = async (jwt) => {
-    const content = await mestoAuth.getContent(jwt).then((res) => {
-      if (res) {
-        setLoggedIn(true);
-        setUserData({
-          id: res._id,
-          email: res.email
-        });
-      }
-    })
-    .catch(err => console.log(err));
-
-    return content;
-  }
-
   const onRegister = ({ password, email }) => {
     return mestoAuth.register(password, email)
     .then((res) => {
@@ -156,54 +193,6 @@ function App() {
     setLoggedIn(false);
     history.push('/sign-in');
   }
-
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-    // проверка наличия токена и валидности токена
-    if (jwt) {
-      mestoAuth.getContent(jwt)
-      .then((res) => {
-        if (res) {
-          auth(jwt);
-        } else {
-          localStorage.removeItem('jwt');
-          history.push('/sign-in');
-        }
-      })
-      .catch(err => console.log(err));
-    }
-    // проверка наличия токена и валидности токена
-  }, []);
-
-  React.useEffect(() => {
-    // Загрузка информации о пользователе
-    if (loggedIn) {
-      api.getProfile()
-      .then((data) => {
-        setCurrentUser(data)
-      })
-      .catch(err => console.log(err));
-    }
-    // Загрузка информации о пользователе
-  }, [loggedIn]);
-
-  React.useEffect(() => {
-    // Загрузка карточек
-    if (loggedIn) {
-      api.getInitialCards()
-      .then((data) => {
-        setCards(data.reverse())
-      })
-      .catch(err => console.log(err));
-    }
-    // Загрузка карточек
-  }, [loggedIn]);
-
-  React.useEffect(() => {
-    if (loggedIn) {
-      history.push('/');
-    }
-  }, [loggedIn])
 
   return (
     <div className="page">
